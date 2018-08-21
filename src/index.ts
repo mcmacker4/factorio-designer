@@ -1,24 +1,29 @@
 import { input, output, producer } from './machine/node'
-import { convertGraph } from './machine/graph';
+import { convertGraph, validateGraph, generateGraph } from './machine/graph';
 import { GraphEditor } from './gui/GUI';
 
-//Nodes
 
-const ironInput = input("IronOre")
-const ironPlateProd = producer("IronPlate")
+// Transport Belt Machine
 
-const ironGearProd = producer("IronGearWheel")
-const beltProd = producer("TransportBelt")
+// //Nodes
 
-const beltOut = output("TransportBelt")
+// const ironInput = input("IronOre")
 
-//Edges
+// const ironPlateProd = producer("IronPlate")
 
-ironPlateProd.setParent(ironInput)
-ironGearProd.setParent(ironPlateProd)
+// const ironGearProd = producer("IronGearWheel")
+// const beltProd = producer("TransportBelt")
 
-beltProd.setParents(ironPlateProd, ironGearProd)
+// const beltOut = output("TransportBelt")
 
-beltOut.setParent(beltProd)
+// //Edges
 
-new GraphEditor(convertGraph([beltOut]))
+// ironPlateProd.setParent(ironInput)
+// ironGearProd.setParent(ironPlateProd)
+// beltProd.setParents(ironPlateProd, ironGearProd)
+// beltOut.setParent(beltProd)
+
+const out = generateGraph("RocketPart")
+
+validateGraph(out)
+new GraphEditor(convertGraph(out))

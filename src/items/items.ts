@@ -5,6 +5,10 @@ export function getRecipe(item: ItemName) {
     return ITEMS[item].recipe
 }
 
+export function getIngredients(recipe: Recipe) : ItemName[] {
+    return Object.keys(recipe) as ItemName[]
+}
+
 export function getProducers(item: ItemName) {
     return ITEMS[item].producers
 }

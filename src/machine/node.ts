@@ -59,6 +59,9 @@ export class OutputNode extends MachineNode {
         if(parent.output !== this.output) {
             throw new Error(`Incompatible income[${parent.output}], expected [${this.output}]`)
         }
+        if(this.parents[parent.output]) {
+            console.log(`[Warning] OutputNode[${this.output}] input is being replaced!`)
+        }
         this.parents[parent.output] = parent
     }
     
