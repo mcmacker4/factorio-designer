@@ -1,0 +1,50 @@
+{
+  "name": "fdl-web",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "mcmacker4",
+  "license": "GPL-3.0",
+  "private": true,
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "Preact.h"
+        }
+      ]
+    ]
+  },
+  "browserslist": [
+    "cover 90%"
+  ],
+  "scripts": {
+    "build": "webpack --config webpack/prod.js",
+    "server": "webpack-dev-server --config webpack/dev.js"
+  },
+  "devDependencies": {
+    "@types/node": "^10.7.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.22.1",
+    "ts-loader": "^4.5.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5",
+    "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "preact": "^8.3.1"
+  }
+}
