@@ -1,5 +1,6 @@
 import { OutputNode, InputNode, ProducerNode } from "../machine/node";
 import { Graph, GraphNode, GraphEdge } from "../machine/graph";
+import { getRecipe, getProducers } from "../items/items";
 
 
 export class GraphEditor {
@@ -10,7 +11,7 @@ export class GraphEditor {
     private draggingElement: GraphNode = null
     private draggingPos = { x: 0, y: 0 }
 
-    private readonly fontSize = 15
+    private readonly fontSize = 12
     private readonly font = `${this.fontSize}px Arial`
     private readonly nodePadX = 20
     private readonly nodePadY = 10
@@ -80,6 +81,7 @@ export class GraphEditor {
         this.ctx.fillStyle = "#FFF"
         this.ctx.fill()
         this.ctx.strokeStyle = "#000"
+        this.ctx.lineWidth = 2
         this.ctx.stroke()
         this.ctx.closePath()
 
@@ -93,16 +95,24 @@ export class GraphEditor {
         //Anchor point is always on the center
         const pos = node.position
         const size = node.size
+        const machineName = getProducers(node.machineNode.output)[0]
         //Draw rect
         this.ctx.fillStyle = "#FFF"
         this.ctx.fillRect(pos.x - size.x / 2, pos.y - size.y / 2, size.x, size.y)
         this.ctx.strokeStyle = "#000"
+        this.ctx.lineWidth = 2
         this.ctx.strokeRect(pos.x - size.x / 2, pos.y - size.y / 2, size.x, size.y)
         //Draw text
         this.ctx.font = this.font
-        this.ctx.textBaseline = "middle"
         this.ctx.fillStyle = "#000"
-        this.ctx.fillText(node.machineNode.output, pos.x - node.size.text / 2, pos.y)
+        this.ctx.textBaseline = "bottom"
+        this.ctx.lineWidth = 0.5
+        let textSize = this.ctx.measureText(node.machineNode.output).width
+        this.ctx.fillText(node.machineNode.output, pos.x - textSize / 2, pos.y)
+        this.ctx.strokeText(node.machineNode.output, pos.x - textSize / 2, pos.y)
+        this.ctx.textBaseline = "top"
+        textSize = this.ctx.measureText(machineName).width
+        this.ctx.fillText(machineName, pos.x - textSize / 2, pos.y)
     }
 
     private drawNode(node: GraphNode) {
@@ -166,10 +176,18 @@ export class GraphEditor {
                 //node.position.y = Math.random() * (this.canvas.height - 200) + 100
 
                 this.ctx.font = this.font
-                const textSize = this.ctx.measureText(node.machineNode.output)
-                node.size.text = textSize.width
-                node.size.x = textSize.width + this.nodePadX * 2
-                node.size.y = this.fontSize + this.nodePadY * 2
+                const textSize = this.ctx.measureText(node.machineNode.output).width
+                node.size.x = textSize + this.nodePadX * 2
+                if(node.machineNode instanceof ProducerNode) {
+                    const machineName = getProducers(node.machineNode.output)[0]
+                    const nameSize = this.ctx.measureText(machineName).width
+                    if(nameSize > textSize) {
+                        node.size.x = nameSize + this.nodePadX * 2
+                    }
+                    node.size.y = this.fontSize * 2 + this.nodePadY * 2
+                } else {
+                    node.size.y = this.fontSize + this.nodePadY * 2
+                }
             }
         }
 

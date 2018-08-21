@@ -5,7 +5,7 @@ import { getRecipe, ItemName, Recipe, getIngredients } from "../items/items";
 
 export interface GraphNode {
     position: { x: number, y: number }
-    size: { x: number, y: number, text: number }
+    size: { x: number, y: number }
     level: number
     machineNode: MachineNode
     color?: string
@@ -111,7 +111,7 @@ export class GraphConverter {
             machineNode: current,
             level: 0,
             position: { x: 0, y: 0 },
-            size: { x: 0, y: 0, text: 0 }
+            size: { x: 0, y: 0 }
         }
 
         if(!(current instanceof InputNode)) {
