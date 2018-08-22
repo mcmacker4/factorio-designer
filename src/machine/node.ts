@@ -78,7 +78,7 @@ export class ProducerNode extends MachineNode {
     }
 
     setParent(parent: MachineNode) {
-        if(!Object.keys(this.productInfo.recipe).includes(parent.output)) {
+        if(!Object.keys(this.productInfo.recipe).includes(parent.output) && this.productInfo.fuels && !Object.keys(this.productInfo.fuels).includes(parent.output)) {
             throw new Error(`Incompatible income[${parent.output}], expected [${Object.keys(this.productInfo.recipe).join(', ')}]`)
         }
         if(this.parents[parent.output] != null) {

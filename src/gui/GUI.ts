@@ -85,17 +85,31 @@ export class GraphEditor {
         this.ctx.stroke()
         this.ctx.closePath()
 
-        this.ctx.fillStyle = "#000"
-        this.ctx.textBaseline = "middle"
-        const textSize = this.ctx.measureText(node.machineNode.output).width
-        this.ctx.fillText(node.machineNode.output, pos.x - textSize / 2, pos.y)
+        if(node.machineNode instanceof OutputNode) {
+            this.ctx.fillStyle = "#000"
+            this.ctx.textBaseline = "middle"
+            const textSize = this.ctx.measureText(node.machineNode.output).width
+            this.ctx.fillText(node.machineNode.output, pos.x - textSize / 2, pos.y)
+        } else {
+            this.ctx.font = this.font
+            this.ctx.fillStyle = "#000"
+            this.ctx.textBaseline = "bottom"
+            this.ctx.lineWidth = 0.5
+            let textSize = this.ctx.measureText(node.machineNode.output).width
+            this.ctx.fillText(node.machineNode.output, pos.x - textSize / 2, pos.y)
+            this.ctx.strokeText(node.machineNode.output, pos.x - textSize / 2, pos.y)
+            this.ctx.textBaseline = "top"
+            const machineName = getProducers(node.machineNode.output)[0] || "Hand"
+            textSize = this.ctx.measureText(machineName).width
+            this.ctx.fillText(machineName, pos.x - textSize / 2, pos.y)
+        }
     }
 
     private drawProducer(node: GraphNode) {
         //Anchor point is always on the center
         const pos = node.position
         const size = node.size
-        const machineName = getProducers(node.machineNode.output)[0]
+        const machineName = getProducers(node.machineNode.output)[0] || "Hand"
         //Draw rect
         this.ctx.fillStyle = "#FFF"
         this.ctx.fillRect(pos.x - size.x / 2, pos.y - size.y / 2, size.x, size.y)
@@ -146,7 +160,7 @@ export class GraphEditor {
 
         if(!edge.from.color) {
             edge.from.color = `hsl(${this.lastColor}, 100%, 50%)`
-            this.lastColor += 30
+            this.lastColor += 50
         }
 
         this.ctx.beginPath()
@@ -178,7 +192,8 @@ export class GraphEditor {
                 this.ctx.font = this.font
                 const textSize = this.ctx.measureText(node.machineNode.output).width
                 node.size.x = textSize + this.nodePadX * 2
-                if(node.machineNode instanceof ProducerNode) {
+                const producers = getProducers(node.machineNode.output)
+                if(node.machineNode instanceof ProducerNode || node.machineNode instanceof InputNode) {
                     const machineName = getProducers(node.machineNode.output)[0]
                     const nameSize = this.ctx.measureText(machineName).width
                     if(nameSize > textSize) {

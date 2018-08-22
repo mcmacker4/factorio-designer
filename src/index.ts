@@ -1,29 +1,14 @@
 import { input, output, producer } from './machine/node'
 import { convertGraph, validateGraph, generateGraph } from './machine/graph';
 import { GraphEditor } from './gui/GUI';
+import { ITEMS, ItemName } from './items/items';
 
 
-// Transport Belt Machine
-
-// //Nodes
-
-// const ironInput = input("IronOre")
-
-// const ironPlateProd = producer("IronPlate")
-
-// const ironGearProd = producer("IronGearWheel")
-// const beltProd = producer("TransportBelt")
-
-// const beltOut = output("TransportBelt")
-
-// //Edges
-
-// ironPlateProd.setParent(ironInput)
-// ironGearProd.setParent(ironPlateProd)
-// beltProd.setParents(ironPlateProd, ironGearProd)
-// beltOut.setParent(beltProd)
-
-const out = generateGraph("RocketPart")
+const allItems = Object.keys(ITEMS) as ItemName[]
+const item = allItems[Math.floor(Math.random() * allItems.length)]
+//console.log(item)
+//const out = generateGraph("LaserTurret")
+const out = generateGraph(item)
 
 validateGraph(out)
 new GraphEditor(convertGraph(out))

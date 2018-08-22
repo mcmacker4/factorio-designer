@@ -1,8 +1,19 @@
 
 export const ITEMS = require('./recipes.json') as Items
 
+function getItem(item: ItemName) {
+    if(!ITEMS[item]) {
+        console.warn(`Unknown item ${item}`)
+    }
+    return ITEMS[item]
+}
+
 export function getRecipe(item: ItemName) {
-    return ITEMS[item].recipe
+    return getItem(item).recipe
+}
+
+export function getFuels(item: ItemName) {
+    return getItem(item).fuels
 }
 
 export function getIngredients(recipe: Recipe) : ItemName[] {
@@ -10,7 +21,7 @@ export function getIngredients(recipe: Recipe) : ItemName[] {
 }
 
 export function getProducers(item: ItemName) {
-    return ITEMS[item].producers
+    return getItem(item).producers
 }
 
 export type Items = {
@@ -20,6 +31,7 @@ export type Items = {
 export type ItemInfo = {
     readonly recipe: Recipe
     readonly producers: Array<ItemName>
+    readonly fuels?: Array<ItemName>
     readonly time: number
 }
 
