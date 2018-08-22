@@ -1,6 +1,6 @@
 import { MachineNode, OutputNode, InputNode, ProducerNode, output, producer, input } from "./node";
 import { unwatchFile } from "fs";
-import { getRecipe, ItemName, getIngredients } from "../items/items";
+import { getRecipe, ItemName, getIngredients, getFuels, getProducers } from "../items/items";
 
 
 export interface GraphNode {
@@ -197,6 +197,17 @@ export class GraphGenerator {
         for(let ingredient of ingredients) {
             const parent = this.createNode(ingredient)
             node.setParent(parent)            
+        }
+
+        if(ingredients.length > 0) {
+            const producers = getProducers(item)
+            if(producers && producers.length > 0) {
+                const fuels = getFuels(producers[0])
+                if(fuels && fuels.length > 0) {
+                    const parent = this.createNode(fuels[0])
+                    node.setParent(parent)
+                }
+            }
         }
 
         return node

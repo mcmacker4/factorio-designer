@@ -6,9 +6,12 @@ import { ITEMS, ItemName } from './items/items';
 
 const allItems = Object.keys(ITEMS) as ItemName[]
 const item = allItems[Math.floor(Math.random() * allItems.length)]
-//console.log(item)
-//const out = generateGraph("LaserTurret")
-const out = generateGraph(item)
+drawGraph(item)
 
-validateGraph(out)
-new GraphEditor(convertGraph(out))
+function drawGraph(...items: ItemName[]) {
+    const out = generateGraph(...items)
+    validateGraph(out)
+    new GraphEditor(convertGraph(out))
+}
+
+window['drawGraph'] = drawGraph

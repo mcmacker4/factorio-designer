@@ -212,7 +212,7 @@ export class GraphEditor {
                 // node.position.x = (this.canvas.width / (levels.length + 1)) * (i + 1)
                 // node.position.y = (this.canvas.height / (levels[i].length + 1)) * (j + 1)
                 node.position.x = 300 * (i + 1)
-                node.position.y = (maxLevelWidth * 300 / (levels[i].length + 1)) * (j + 1)
+                node.position.y = (maxLevelWidth * 200 / (levels[i].length + 1)) * (j + 1)
 
                 this.ctx.font = this.font
                 const textSize = this.ctx.measureText(node.machineNode.output).width
